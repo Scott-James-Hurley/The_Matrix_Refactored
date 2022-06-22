@@ -1,7 +1,14 @@
 #include <iostream>
+#include <vector>
 #include <chrono>
 #include <thread>
 #include "Eigen/Dense"
+#include "/usr/local/include/Math/SMatrix.h"
+
+ROOT::Math::SMatrix<double, 6, 6, ROOT::Math::MatRepSym<double, 6>> rootMatMult(const ROOT::Math::SMatrix<double, 6, 6> &m2, const ROOT::Math::SMatrix<double, 6, 6, ROOT::Math::MatRepSym<double, 6>> &m1)
+{
+  return ROOT::Math::Similarity(m2, m1);
+}
 
 Eigen::Matrix<double, 6, 6> matrixMultFastLoop(const Eigen::Matrix<double, 6, 6> &m1, const Eigen::Matrix<double, 6, 6> &m2)
 {
@@ -128,89 +135,120 @@ int main()
   using std::chrono::high_resolution_clock;
   using std::chrono::milliseconds;
 
+  srand(time(0));
+
   const int ITERATIONS = 10000000;
+  double total = 0;
 
   Eigen::Matrix<double, 6, 6> m1 = Eigen::Matrix<double, 6, 6>::Random(6, 6);
   Eigen::Matrix<double, 6, 6> m2 = Eigen::Matrix<double, 6, 6>::Random(6, 6);
 
-  auto t1 = high_resolution_clock::now();
+  double a[36];
+  std::vector<double> v(21);
+
+   for (int i = 0; i < 36; ++i)
+    a[i] = double(rand());
+
+  for (int i = 0; i < 21; ++i)
+    v[i] = double(rand());
+
+  ROOT::Math::SMatrix<double, 6> sm1(a, 36);
+  ROOT::Math::SMatrix<double, 6, 6, ROOT::Math::MatRepSym<double, 6>> sm2(v.begin(), v.end());
+
+  auto sampleT1 = high_resolution_clock::now();
 
   for (int i = 0; i < ITERATIONS; i++)
   {
-    matrixMultFastLoop(m1, m2);
+    m1(0, 0) = (double)rand();
+    total += m1(0, 0);
   }
 
-  auto t2 = high_resolution_clock::now();
+  auto sampleT2 = high_resolution_clock::now();
+  duration<double, std::milli> sampleTime = sampleT2 - sampleT1;
 
-  duration<double, std::milli> ms_double1 = t2 - t1;
-
-  std::cout << "Loop:";
-  std::cout << ms_double1.count() << "ms\n\n";
-
-  auto t5 = high_resolution_clock::now();
+  auto loopT1 = high_resolution_clock::now();
 
   for (int i = 0; i < ITERATIONS; i++)
   {
-    matrixMultFastLoopTheTriple(m1, m2);
+    m1(0, 0) = (double)rand();
+    total += matrixMultFastLoop(m1, m2)(0, 0);
   }
 
-  auto t6 = high_resolution_clock::now();
+  auto loopT2 = high_resolution_clock::now();
+  duration<double, std::milli> loopTime = loopT2 - loopT1;
+  std::cout << "Loop: " << loopTime.count() - sampleTime.count() << "ms\n\n";
 
-  duration<double, std::milli> ms_double3 = t6 - t5;
-  std::cout << "Triple:";
-  std::cout << ms_double3.count() << "ms\n\n";
-
-  auto t7 = high_resolution_clock::now();
+  auto loopTheTripleT1 = high_resolution_clock::now();
 
   for (int i = 0; i < ITERATIONS; i++)
   {
-    matrixMultFastLoopAccess(m1, m2);
+    m1(0, 0) = (double)rand();
+    total += matrixMultFastLoopTheTriple(m1, m2)(0, 0);
   }
 
-  auto t8 = high_resolution_clock::now();
+  auto loopTheTripleT2 = high_resolution_clock::now();
+  duration<double, std::milli> loopTheTripleTime = loopTheTripleT2 - loopTheTripleT1;
+  std::cout << "Triple: " << loopTheTripleTime.count() - sampleTime.count() << "ms\n\n";
 
-  duration<double, std::milli> ms_double4 = t8 - t7;
-  std::cout << "Access:";
-  std::cout << ms_double4.count() << "ms\n\n";
-
-  auto t9 = high_resolution_clock::now();
+  auto loopAccessT1 = high_resolution_clock::now();
 
   for (int i = 0; i < ITERATIONS; i++)
   {
-    matrixMultFastLoopRef(m1, m2);
+    m1(0, 0) = (double)rand();
+    total += matrixMultFastLoopAccess(m1, m2)(0, 0);
   }
 
-  auto t10 = high_resolution_clock::now();
+  auto loopAccessT2 = high_resolution_clock::now();
+  duration<double, std::milli> loopAccessTime = loopAccessT2 - loopAccessT1;
+  std::cout << "Access: " << loopAccessTime.count() - sampleTime.count() << "ms\n\n";
 
-  duration<double, std::milli> ms_double5 = t10 - t9;
-  std::cout << "Ref:";
-  std::cout << ms_double5.count() << "ms\n\n";
-
-  auto t11 = high_resolution_clock::now();
+  auto loopRefT1 = high_resolution_clock::now();
 
   for (int i = 0; i < ITERATIONS; i++)
   {
-    matrixMultFastLoopTripleRef(m1, m2);
+    m1(0, 0) = (double)rand();
+    total += matrixMultFastLoopRef(m1, m2)(0, 0);
   }
 
-  auto t12 = high_resolution_clock::now();
+  auto loopRefT2 = high_resolution_clock::now();
+  duration<double, std::milli> loopRefTime = loopRefT2 - loopRefT1;
+  std::cout << "Ref: " << loopRefTime.count() - sampleTime.count() << "ms\n\n";
 
-  duration<double, std::milli> ms_double6 = t12 - t11;
-  std::cout << "TripleRef:";
-  std::cout << ms_double6.count() << "ms\n\n";
-
-  auto t3 = high_resolution_clock::now();
+  auto loopTripleRefT1 = high_resolution_clock::now();
 
   for (int i = 0; i < ITERATIONS; i++)
   {
-    matrixMultOld(m1, m2);
+    m1(0, 0) = (double)rand();
+    total += matrixMultFastLoopTripleRef(m1, m2)(0, 0);
   }
 
-  auto t4 = high_resolution_clock::now();
+  auto loopTripleRefT2 = high_resolution_clock::now();
+  duration<double, std::milli> loopTripleRefTime = loopTripleRefT2 - loopTripleRefT1;
+  std::cout << "TripleRef: " << loopTripleRefTime.count() - sampleTime.count() << "ms\n\n";
 
-  duration<double, std::milli> ms_double2 = t4 - t3;
-  std::cout << "Old:";
-  std::cout << ms_double2.count() << "ms\n\n";
+  auto rootT1 = high_resolution_clock::now();
+
+  for (int i = 0; i < ITERATIONS; i++)
+  {
+    sm1(0, 0) = (double)rand();
+    total += rootMatMult(sm1, sm2)(0, 0);
+  }
+
+  auto rootT2 = high_resolution_clock::now();
+  duration<double, std::milli> rootTime = rootT2 - rootT1;
+  std::cout << "ROOT: " << rootTime.count() - sampleTime.count() << "ms\n\n";
+
+  auto oldT1 = high_resolution_clock::now();
+
+  for (int i = 0; i < ITERATIONS; i++)
+  {
+    m1(0, 0) = (double)rand();
+    total += matrixMultOld(m1, m2)(0, 0);
+  }
+
+  auto oldT2 = high_resolution_clock::now();
+  duration<double, std::milli> oldTime = oldT2 - oldT1;
+  std::cout << "Old: " << oldTime.count() - sampleTime.count() << "ms\n\n";
 
   return 0;
 }

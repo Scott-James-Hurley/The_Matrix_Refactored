@@ -254,6 +254,17 @@ int main()
   auto sampleT2 = high_resolution_clock::now();
   duration<double, std::milli> sampleTime = sampleT2 - sampleT1;
 
+  auto smatrixSampleT1 = high_resolution_clock::now();
+
+  for (int i = 0; i < ITERATIONS; i++)
+  {
+    sm1(randXcoord, randYcoord) = (double)rand();
+    total += sm1(randXTotalcoord, randYTotalcoord);
+  }
+
+  auto smatrixSampleT2 = high_resolution_clock::now();
+  duration<double, std::milli> smatrixSampleTime = smatrixSampleT2 - smatrixSampleT1;
+
   auto pointerCurlyT1 = high_resolution_clock::now();
 
   for (int i = 0; i < ITERATIONS; i++)
@@ -348,7 +359,7 @@ int main()
 
   auto rootT2 = high_resolution_clock::now();
   duration<double, std::milli> rootTime = rootT2 - rootT1;
-  std::cout << "matrixMultSMatrix: " << rootTime.count() - sampleTime.count() << "ms\n\n";
+  std::cout << "matrixMultSMatrix: " << rootTime.count() - smatrixSampleTime.count() << "ms\n\n";
 
   auto tripleInitT1 = high_resolution_clock::now();
 

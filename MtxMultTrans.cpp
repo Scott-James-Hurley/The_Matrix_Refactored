@@ -28,6 +28,12 @@ ROOT::Math::SMatrix<double, 6, 6, ROOT::Math::MatRepSym<double, 6>> matrixMultSM
 {
   return ROOT::Math::Similarity(m2, m1);
 }
+//Time taken: 3703.75ms
+void openBlasMatrixMultTrans(const double* m1, const double* m2, double* m3) {
+  double m4[36] = {};
+  cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, 6, 6, 6, 1, m1, 6, m2, 6, 0, m4, 6);
+  cblas_dgemm(CblasColMajor, CblasNoTrans, CblasTrans, 6, 6, 6, 1, m4, 6, m1, 6, 1, m3, 6);
+}
 
 //Time taken: 676.414ms
 Eigen::Matrix<double, 6, 6> matrixMultFastLoop(const Eigen::Matrix<double, 6, 6> &m1, const Eigen::Matrix<double, 6, 6> &m2)
@@ -372,6 +378,20 @@ int main()
   auto tripleInitT2 = high_resolution_clock::now();
   duration<double, std::milli> tripleInitTime = tripleInitT2 - tripleInitT1;
   std::cout << "matrixMultFastLoopTripleInit: " << tripleInitTime.count() - sampleTime.count() << "ms\n\n";
+
+  auto blasT1 = high_resolution_clock::now();
+
+  for (int i = 0; i < ITERATIONS; i++)
+  {
+    double m3[36] = {};
+    m1(randXcoord, randYcoord) = (double)rand();
+    openBlasMatrixMultTrans(m1.data(), m2.data(), m3);
+    total += m3[randXTotalcoord];
+  }
+
+  auto blasT2 = high_resolution_clock::now();
+  duration<double, std::milli> blasTime = blasT2 - blasT1;
+  std::cout << "blas: " << blasTime.count()  - sampleTime.count() << "ms\n\n";
 
   auto oldT1 = high_resolution_clock::now();
 

@@ -1,0 +1,9 @@
+[submodule "src/libs/eigen"]
+	path = src/libs/eigen
+	url = https://gitlab.com/libeigen/eigen
+[submodule "src/libs/benchmark"]
+	path = src/libs/benchmark
+	url = https://github.com/google/benchmark/
+[submodule "src/libs/googlebenchmark"]
+	path = src/libs/googlebenchmark
+	url = https://github.com/google/benchmark/

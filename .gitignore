@@ -12,6 +12,7 @@
 *exe
 Eigen
 .vscode/
+build/
 
 eigen-3.4.0
 

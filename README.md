@@ -1,7 +1,7 @@
 # The_Matrix_Refactored
 ## An attempt to speed up a portion of the ACTS project multiplying matrices
-This project requires [ACTS](https://github.com/acts-project/acts) and its prerequisites.<br /><br />
-To change the dimensions of the marices used in `MtxMultTransArbSize.cpp`, change the values of `m1Rows` and `m1ColumnsM2RowsColumns` in `main()`.<br /><br />
-To change the dimensions of the marices used in `MtxMultArb.cpp`, change the values of `m1Rows`, `m1ColumnsM2Rows` and `m2Columns ` in `main()`.<br /><br />
-Compile files using the following command:<br />
-`g++ -std=c++17 -O3 -march=native -Ipath/to/Eigen -Ipath/to/acts/Core/include filename.cpp -o filename.exe`
+This project requires [Eigen](https://gitlab.com/libeigen/eigen), [ROOT](https://root.cern/install/) and [Google Benchmark](https://github.com/google/benchmark) <br /><br />
+To change the dimensions of the marices, change the values of `M1ROWS` and `M1COLUMNSM2ROWSCOLUMNS` in `include/benchmarks/similarityHeader.h`.<br /><br />
+Compile files using the following commands:<br />
+`cmake -B build -S src`<br />
+`cmake --build build`

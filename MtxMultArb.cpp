@@ -5,9 +5,9 @@
 #include <Eigen/Dense>
 #include <Math/SMatrix.h>
 
-#include "/acts/Core/include/Acts/Definitions/Algebra.hpp"
-#include "/acts/Core/include/Acts/Definitions/Common.hpp"
-#include "/acts/Core/include/Acts/Utilities/BinningType.hpp"
+#include <Acts/Definitions/Algebra.hpp>
+#include <Acts/Definitions/Common.hpp>
+#include <Acts/Utilities/BinningType.hpp>
 
 #include <array>
 #include <bitset>
@@ -116,13 +116,24 @@ int main()
 
   srand(time(0));
 
+  #ifndef M1ROWS
+    const size_t M1ROWS = 6;
+  #endif
+  #ifndef M1COLUMNSM2ROWS
+    const size_t M1COLUMNSM2ROWS = 6;
+  #endif
+  #ifndef M2COLUMNS
+    const size_t M2COLUMNS = 6;
+  #endif
+
   const int ITERATIONS = 10000000;
-  const size_t m1Rows = 15;
-  const size_t m1ColumnsM2Rows = 15;
-  const size_t m2Columns = 15;
+  const size_t m1Rows = M1ROWS;
+  const size_t m1ColumnsM2Rows = M1COLUMNSM2ROWS;
+  const size_t m2Columns = M2COLUMNS;
+
   const int triangleNumber = m1ColumnsM2Rows * (m2Columns + 1) / 2;
   double total = 0;
-
+  
   Eigen::Matrix<double, m1Rows, m1ColumnsM2Rows> m1 = Eigen::Matrix<double, m1Rows, m1ColumnsM2Rows>::Random(m1Rows, m1ColumnsM2Rows);
   Eigen::Matrix<double, m1ColumnsM2Rows, m2Columns> m2 = Eigen::Matrix<double, m1ColumnsM2Rows, m2Columns>::Random(m1ColumnsM2Rows, m2Columns);
   Eigen::TriangularView<Eigen::Matrix<double, m1ColumnsM2Rows, m2Columns>, 1U> m2T = m2.triangularView<Eigen::Lower>();

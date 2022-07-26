@@ -139,8 +139,15 @@ int main()
   using std::chrono::high_resolution_clock;
   using std::chrono::milliseconds;
 
-  const size_t m1Rows = 8;
-  const size_t m1ColumnsM2RowsColumns = 8;
+  #ifndef M1ROWS
+    const size_t M1ROWS = 6;
+  #endif
+  #ifndef M1COLUMNSM2ROWSCOLUMNS
+    const size_t M1COLUMNSM2ROWSCOLUMNS = 6;
+  #endif
+
+  const size_t m1Rows = M1ROWS;
+  const size_t m1ColumnsM2RowsColumns = M1COLUMNSM2ROWSCOLUMNS;
 
   srand(time(0));
 

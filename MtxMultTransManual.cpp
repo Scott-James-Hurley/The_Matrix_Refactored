@@ -2,8 +2,8 @@
 #include <vector>
 #include <chrono>
 #include <thread>
-#include "Eigen/Dense"
-#include "Math/SMatrix.h"
+#include <Eigen/Dense>
+#include <Math/SMatrix.h>
 
 //Time taken: 510.273ms
 Eigen::Matrix<double, 6, 6> matrixMultManual(const Eigen::Matrix<double, 6, 6> &m1, const Eigen::Matrix<double, 6, 6> &m2)

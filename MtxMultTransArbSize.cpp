@@ -5,8 +5,8 @@
 #include <cblas.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "Eigen/Dense"
-#include "Math/SMatrix.h"
+#include <Eigen/Dense>
+#include <Math/SMatrix.h>
 
 template<size_t M1Rows, size_t m1ColumnsM2RowsColumns>
 ROOT::Math::SMatrix<double, M1Rows, M1Rows, ROOT::Math::MatRepSym<double, M1Rows>> matrixMultSMatrix(const ROOT::Math::SMatrix<double, M1Rows, m1ColumnsM2RowsColumns> &m1, const ROOT::Math::SMatrix<double, m1ColumnsM2RowsColumns, m1ColumnsM2RowsColumns, ROOT::Math::MatRepSym<double, m1ColumnsM2RowsColumns>> &m2)

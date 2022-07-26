@@ -25,7 +25,7 @@ Eigen::Matrix<double, 6, 6> matrixMultCurly(const Eigen::Matrix<double, 6, 6> &m
 }
 
 //Time taken: 457.002ms
-ROOT::Math::SMatrix<double, 6, 6, ROOT::Math::MatRepSym<double, 6>> matrixMultSMatrix(const ROOT::Math::SMatrix<double, 6, 6> &m2, const ROOT::Math::SMatrix<double, 6, 6, ROOT::Math::MatRepSym<double, 6>> &m1)
+ROOT::Math::SMatrix<double, 6, 6, ROOT::Math::MatRepSym<double, 6>> sMatrixSimilarity(const ROOT::Math::SMatrix<double, 6, 6> &m2, const ROOT::Math::SMatrix<double, 6, 6, ROOT::Math::MatRepSym<double, 6>> &m1)
 {
   return ROOT::Math::Similarity(m2, m1);
 }
@@ -361,12 +361,12 @@ int main()
   for (int i = 0; i < ITERATIONS; i++)
   {
     sm1(randXcoord, randYcoord) = (double)rand();
-    total += matrixMultSMatrix(sm1, sm2)(randXTotalcoord, randYTotalcoord);
+    total += sMatrixSimilarity(sm1, sm2)(randXTotalcoord, randYTotalcoord);
   }
 
   auto rootT2 = high_resolution_clock::now();
   duration<double, std::milli> rootTime = rootT2 - rootT1;
-  std::cout << "matrixMultSMatrix: " << rootTime.count() - smatrixSampleTime.count() << "ms\n\n";
+  std::cout << "sMatrixSimilarity: " << rootTime.count() - smatrixSampleTime.count() << "ms\n\n";
 
   auto tripleInitT1 = high_resolution_clock::now();
 

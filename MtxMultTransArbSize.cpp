@@ -9,7 +9,7 @@
 #include <Math/SMatrix.h>
 
 template<size_t M1Rows, size_t m1ColumnsM2RowsColumns>
-ROOT::Math::SMatrix<double, M1Rows, M1Rows, ROOT::Math::MatRepSym<double, M1Rows>> matrixMultSMatrix(const ROOT::Math::SMatrix<double, M1Rows, m1ColumnsM2RowsColumns> &m1, const ROOT::Math::SMatrix<double, m1ColumnsM2RowsColumns, m1ColumnsM2RowsColumns, ROOT::Math::MatRepSym<double, m1ColumnsM2RowsColumns>> &m2)
+ROOT::Math::SMatrix<double, M1Rows, M1Rows, ROOT::Math::MatRepSym<double, M1Rows>> sMatrixSimilarity(const ROOT::Math::SMatrix<double, M1Rows, m1ColumnsM2RowsColumns> &m1, const ROOT::Math::SMatrix<double, m1ColumnsM2RowsColumns, m1ColumnsM2RowsColumns, ROOT::Math::MatRepSym<double, m1ColumnsM2RowsColumns>> &m2)
 {
   return ROOT::Math::Similarity(m1, m2);
 }
@@ -211,12 +211,12 @@ int main()
   for (int i = 0; i < ITERATIONS; i++)
   {
     sm1(randXcoord, randYcoord) = (double)rand();
-    total += matrixMultSMatrix<m1Rows, m1ColumnsM2RowsColumns>(sm1, sm2)(randXTotalcoord, randYTotalcoord);
+    total += sMatrixSimilarity<m1Rows, m1ColumnsM2RowsColumns>(sm1, sm2)(randXTotalcoord, randYTotalcoord);
   }
 
   auto rootT2 = high_resolution_clock::now();
   duration<double, std::milli> rootTime = rootT2 - rootT1;
-  std::cout << "matrixMultSMatrix: " << rootTime.count() << "ms\n\n";
+  std::cout << "sMatrixSimilarity: " << rootTime.count() << "ms\n\n";
 
   auto tripleInitT1 = high_resolution_clock::now();
 

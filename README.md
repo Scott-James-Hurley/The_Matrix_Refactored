@@ -3,7 +3,7 @@
 
 This project requires [Eigen](https://gitlab.com/libeigen/eigen), [ROOT](https://root.cern/install/) and [Google Benchmark](https://github.com/google/benchmark) <br /><br />
 
-To change the dimensions of the marices, change the values of `M1ROWS` and `M1COLUMNSM2ROWSCOLUMNS` in `include/benchmarks/similarityHeader.h`.<br /><br />
+To change the dimensions of the marices, use the following build options: `-DM1ROWS` and `-DM1COLUMNSM2ROWSCOLUMNS`.<br /><br />
 
 Compile files using the following commands:<br />
 `cmake -B build -S src`<br />

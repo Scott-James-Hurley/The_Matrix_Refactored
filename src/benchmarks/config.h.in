@@ -1,0 +1,6 @@
+#ifndef CONFIG_H_IN
+#define CONFIG_H_IN
+
+#cmakedefine M1ROWS @M1ROWS@
+#cmakedefine M1COLUMNSM2ROWSCOLUMNS @M1COLUMNSM2ROWSCOLUMNS@
+#endif

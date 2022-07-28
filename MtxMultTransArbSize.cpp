@@ -8,6 +8,8 @@
 #include <Eigen/Dense>
 #include <Math/SMatrix.h>
 
+//Benchmark for functions calculating the similarity (A * B * T(A)) of two variable-size matrices (default is 6x6)
+
 template<size_t M1Rows, size_t m1ColumnsM2RowsColumns>
 ROOT::Math::SMatrix<double, M1Rows, M1Rows, ROOT::Math::MatRepSym<double, M1Rows>> sMatrixSimilarity(const ROOT::Math::SMatrix<double, M1Rows, m1ColumnsM2RowsColumns> &m1, const ROOT::Math::SMatrix<double, m1ColumnsM2RowsColumns, m1ColumnsM2RowsColumns, ROOT::Math::MatRepSym<double, m1ColumnsM2RowsColumns>> &m2)
 {

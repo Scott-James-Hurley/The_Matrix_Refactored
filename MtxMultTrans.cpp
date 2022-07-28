@@ -6,6 +6,8 @@
 #include <Eigen/Dense>
 #include <Math/SMatrix.h>
 
+//Benchmark for functions calculating the similarity (A * B * T(A)) of two 6x6 matrices
+
 //Time taken: 512.747ms
 Eigen::Matrix<double, 6, 6> matrixMultCurly(const Eigen::Matrix<double, 6, 6> &m1, const Eigen::Matrix<double, 6, 6> &m2)
 {

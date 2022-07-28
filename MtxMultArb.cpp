@@ -20,6 +20,8 @@
 #include <string>
 #include <vector>
 
+//Benchmark for functions multiplying two matrices of user-defined size (default is 6x6)
+
 template<size_t M1Rows, size_t M1ColumnsM2Rows, size_t M2Columns>
 ROOT::Math::SMatrix<double, M1Rows, M2Columns> sMatMult(const ROOT::Math::SMatrix<double, M1Rows, M1ColumnsM2Rows> &sm1, const ROOT::Math::SMatrix<double, M1ColumnsM2Rows, M2Columns> &sm2)
 {

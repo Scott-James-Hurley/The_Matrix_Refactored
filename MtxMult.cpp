@@ -5,6 +5,8 @@
 #include <Eigen/Dense>
 #include <Math/SMatrix.h>
 
+//Benchmark for functions multiplying two 6x6 matrices
+
 //Time taken: 215.794ms
 ROOT::Math::SMatrix<double, 6, 6> sMatMult(const ROOT::Math::SMatrix<double, 6, 6> &sm1, const ROOT::Math::SMatrix<double, 6, 6> &sm2)
 {

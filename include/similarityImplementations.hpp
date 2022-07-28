@@ -3,6 +3,8 @@
 
 #include "Eigen/Dense"
 
+//Contains the custom implementations of the similarity
+
 template<size_t M1Rows, size_t m1ColumnsM2RowsColumns>
 Eigen::Matrix<double, M1Rows, M1Rows> matrixMultFastLoopTheTriple(const Eigen::Matrix<double, M1Rows, m1ColumnsM2RowsColumns> &m1, const Eigen::Matrix<double, m1ColumnsM2RowsColumns, m1ColumnsM2RowsColumns> &m2)
 {

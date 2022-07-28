@@ -1,6 +1,8 @@
 #ifndef SIMILARITY_HEADER_H
 #define SIMILARITY_HEADER_H
 
+//Contains definitions for constants
+
 #ifndef M1ROWS
     const size_t M1ROWS = 6;
   #endif

@@ -7,6 +7,8 @@
 #include "smatrixSimilarity.h"
 #include "similarityHeader.h"
 
+//Adds the benchmarks to the benchmark suite
+
 #define BENCHMARK_SUITE(x)			\
 	BENCHMARK(x)				\
 		->Threads(1)			\

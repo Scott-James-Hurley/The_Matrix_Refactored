@@ -49,6 +49,15 @@ ROOT::Math::SMatrix<double, M1Rows, M2Columns> sMatMultConvEigen(const Eigen::Ma
   return ROOT::Math::operator*(ROOT::Math::SMatrix<double, M1ColumnsM2Rows, M1Rows>(m1T.data(), m1T.data() + m1T.size()), ROOT::Math::SMatrix<double, M2Columns, M1ColumnsM2Rows>(m2T.data(), m2T.data() + m2T.size()));
 }
 
+
+//This function gives the wrong result as the provided Eigen matrices are column-major and SMatrix expects row major matrices
+template<size_t M1Rows, size_t M1ColumnsM2Rows, size_t M2Columns>
+Eigen::Matrix<double, M1Rows, M2Columns> sMatMultNoConv(const Eigen::Matrix<double, M1Rows, M1ColumnsM2Rows> &m1, const Eigen::Matrix<double, M1ColumnsM2Rows, M2Columns> &m2)
+{
+  ROOT::Math::SMatrix<double, M1Rows, M2Columns> m3 = ROOT::Math::operator*(ROOT::Math::SMatrix<double, M1ColumnsM2Rows, M1Rows>(m1.data(), m1.data() + m1.size()), ROOT::Math::SMatrix<double, M2Columns, M1ColumnsM2Rows>(m2.data(), m2.data() + m2.size()));
+  return Eigen::Map<Eigen::Matrix<double,M1Rows,M2Columns,Eigen::ColMajor>>(m3.Array());
+}
+
 template<size_t M1Rows, size_t M1ColumnsM2Rows, size_t M2Columns>
 Eigen::Matrix<double, M1Rows, M2Columns> eigenMult(const Eigen::Matrix<double, M1Rows, M1ColumnsM2Rows> &m1, const Eigen::Matrix<double, M1ColumnsM2Rows, M2Columns> &m2)
 {
@@ -202,6 +211,18 @@ int main()
   auto smatrixConvET2 = high_resolution_clock::now();
   duration<double, std::milli> smatrixConvETime = smatrixConvET2 - smatrixConvET1;
   std::cout << "sMatMultConvEigen: " << smatrixConvETime.count() << "ms\n\n";
+
+  auto smatrixNoConvT1 = high_resolution_clock::now();
+
+  for (int i = 0; i < ITERATIONS; i++)
+  {
+    m1(randXcoord, randYcoord) = (double)rand();
+    total += sMatMultNoConv<m1Rows, m1ColumnsM2Rows, m2Columns>(m1, m2)(randXTotalcoord, randYTotalcoord);
+  }
+
+  auto smatrixNoConvT2 = high_resolution_clock::now();
+  duration<double, std::milli> smatrixNoConvTime = smatrixNoConvT2 - smatrixNoConvT1;
+  std::cout << "sMatMultNoConv: " << smatrixNoConvTime.count() << "ms\n\n";
 
   if(m1ColumnsM2Rows == m2Columns) {
     auto eigenSymT1 = high_resolution_clock::now();
